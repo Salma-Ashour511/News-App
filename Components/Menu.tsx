@@ -1,23 +1,23 @@
+import React from 'react';
 import NewsArticleModel from "../models/ArticleModel";
 import MainMenuItem from "./MenuItem";
-import { FlatList, StyleSheet, Dimensions } from "react-native";
+import { FlatList, StyleSheet, Dimensions, RefreshControl } from "react-native";
 import { ListRenderItem } from "react-native";
 
 let deviceWidth = Dimensions.get("window").width
 
-type Pram = {
+type Param = {
   menuData: NewsArticleModel[];
   onMenuItemPressed(action:NewsArticleModel):void
+  refreshControl():void
 }
 
-function Menu(props: Pram)
+function Menu(props: Param)
 {
-  // console.log(props)
     function onPressedHandler(itemDetails: NewsArticleModel) {
         props.onMenuItemPressed(itemDetails);
     }
     const renderCategoryItem: ListRenderItem<NewsArticleModel> = ({ item }) => (
-        // console.log(itemData);
           <MainMenuItem
             title={item.title}
             img={item.urlToImage}
@@ -25,12 +25,23 @@ function Menu(props: Pram)
           />
     )
 
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+      setRefreshing(true);
+      props.refreshControl()
+      setRefreshing(false)
+    }, []);
+
       return(
         <FlatList
         style={styles.flatlistStyle}
         data={props.menuData}
         keyExtractor={(item) => item.author + item.title + item.urlToImage}
         renderItem={renderCategoryItem}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
       )
 }
