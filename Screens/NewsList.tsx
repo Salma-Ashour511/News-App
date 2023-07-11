@@ -11,6 +11,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { SearchBar } from "@rneui/themed";
 import { useTheme } from '@react-navigation/native';
 import {useColorScheme} from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 let deviceWidth = Dimensions.get("window").width;
 function NewsList({ navigation }: StackScreenProps<"News">) {
@@ -21,6 +22,7 @@ function NewsList({ navigation }: StackScreenProps<"News">) {
   const colors = useTheme().colors;
   const scheme = useColorScheme();
   let backgroundColor = scheme === "dark" ? "#DE9954" : "#4c669f"
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -83,7 +85,7 @@ function NewsList({ navigation }: StackScreenProps<"News">) {
           searchIcon={{ size: 24 }}
           onChangeText={(text: string) => searchFilterFunction(text)}
           onClear={() => searchFilterFunction('')}
-          placeholder="Search..."
+          placeholder={t('navigation:common')}
           value={search}    
           containerStyle={styles.searchBarStyle}
           inputContainerStyle={styles.searchBarInnerStyle}

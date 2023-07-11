@@ -8,10 +8,13 @@ import Settings from './Screens/Settings';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from 'react-native';
-
+import './IMLocalize';
+import { useTranslation } from 'react-i18next';
 
 const BottomTabs = createBottomTabNavigator<StackParamList>();
 function NewsBottomTabs() {
+  const { t } = useTranslation();
+
   return (
     <BottomTabs.Navigator
       screenOptions={({ navigation }) => ({
@@ -21,8 +24,8 @@ function NewsBottomTabs() {
         name="News"
         component={NewsList}
         options={{
-          title: 'News',
-          tabBarLabel: 'News',
+          title: t('navigate:home'),
+          tabBarLabel:  t('navigate:home'),
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="newspaper" size={size} color={color} />
           ),
@@ -32,8 +35,8 @@ function NewsBottomTabs() {
         name="Settings"
         component={Settings}
         options={{
-          title: 'Settings',
-          tabBarLabel: 'Settings',
+          title: t('navigate:settings'),
+          tabBarLabel:  t('navigate:settings'),
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="settings" size={size} color={color} />
           )
