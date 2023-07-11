@@ -1,4 +1,4 @@
-import { Dimensions, View, RefreshControl } from "react-native";
+import { Dimensions, View } from "react-native";
 import { StyleSheet } from "react-native";
 import { StackScreenProps } from "../App";
 import MenuModel from "../Models/MenuModel";
@@ -9,12 +9,18 @@ import axios from "axios";
 import ArticleModel from "../models/ArticleModel";
 import { LinearGradient } from "expo-linear-gradient";
 import { SearchBar } from "@rneui/themed";
+import { useTheme } from '@react-navigation/native';
+import {useColorScheme} from 'react-native';
 
 let deviceWidth = Dimensions.get("window").width;
 function NewsList({ navigation }: StackScreenProps<"News">) {
   const [fetchedNews, setFetchedNews] = useState<ArticleModel[]>([]);
   const [search, setSearch] = useState('');
   const [filteredNews, setFilteredNews] = useState<ArticleModel[]>([]);
+
+  const colors = useTheme().colors;
+  const scheme = useColorScheme();
+  let backgroundColor = scheme === "dark" ? "#DE9954" : "#4c669f"
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -68,7 +74,7 @@ function NewsList({ navigation }: StackScreenProps<"News">) {
 
 
   return (
-    <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.rootScreen}>
+    <LinearGradient colors={[colors.background, backgroundColor]} style={styles.rootScreen}>
         <View style={styles.container}>
         <SearchBar
           platform="default"
